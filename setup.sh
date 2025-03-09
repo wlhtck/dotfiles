@@ -7,6 +7,8 @@ declare -a FILES_TO_SYMLINK=(
   '.promptlinerc'
   '.tmux.conf'
   '.config/nvim/init.vim'
+  ".config/nvim/init.lua"
+  ".config/nvim/lua/config/lazy.lua"
   '.config/nvim/coc-settings.json'
   '.config/coc/extensions/package.json'
   '.p10k.zsh'
@@ -14,7 +16,7 @@ declare -a FILES_TO_SYMLINK=(
 )
 
 declare -a DIRECTORIES_TO_CREATE=(
-  '.config/nvim'
+  '.config/nvim/lua/config'
   '.config/coc/extensions'
 )
 
