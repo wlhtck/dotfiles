@@ -2,7 +2,6 @@
 DOTFILES_DIR=$(pwd)  # Assumes the script runs from the dotfiles repo
 
 declare -a FILES_TO_SYMLINK=(
-  '.vimrc'
   '.bashrc'
   '.zshrc'
   '.bash_profile'
