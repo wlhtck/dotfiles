@@ -11,6 +11,7 @@ declare -a FILES_TO_SYMLINK=(
   '.config/nvim/init.vim'
   ".config/nvim/init.lua"
   ".config/nvim/lua/config/lazy.lua"
+  ".config/kitty/kitty.conf"
   '.p10k.zsh'
   '.gitconfig'
 )
@@ -18,6 +19,7 @@ declare -a FILES_TO_SYMLINK=(
 declare -a DIRECTORIES_TO_CREATE=(
   '.config/nvim/lua/config'
   '.config/nvim/lua/plugins'  # Ensure the plugins directory exists
+  '.config/kitty'
 )
 
 # Create necessary directories
