@@ -22,6 +22,8 @@ vim.opt.rtp:prepend(lazypath)
 -- Set leader key
 vim.g.mapleader = ","
 
+vim.keymap.set("n", "-", "<CMD>Oil<CR>", { desc = "Open parent directory" })
+
 -- General Settings
 vim.opt.hidden = true
 -- vim.opt.showcmd = true

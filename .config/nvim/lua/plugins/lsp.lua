@@ -13,9 +13,15 @@ return {
     config = function()
       -- Mason Setup
       require("mason").setup()
-      require("mason-lspconfig").setup({
-        ensure_installed = { "ts_ls", "eslint", "lua_ls", "pyright" },
-      })
+      -- require("mason-lspconfig").setup({
+      --   ensure_installed = { "ts_ls", "eslint", "lua_ls", "pyright" },
+      --   handlers = {
+      --     function(server)
+      --       print("Installing LSP: " .. server)
+      --     end
+
+      --   }
+      -- })
 
       -- LSP Capabilities (for nvim-cmp)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -57,13 +63,39 @@ return {
         end
       end
 
+      vim.o.updatetime = 300
+      vim.api.nvim_create_autocmd("CursorHold", {
+        callback = function()
+          vim.diagnostic.open_float(nil, { focus = false })
+        end,
+      })
+
+      vim.diagnostic.config({
+        virtual_text = false, -- Prevent noisy inline text
+        float = {
+          border = "rounded",
+          source = "always", -- Show source (tsserver, etc.)
+          focusable = true,
+          max_width = 80,
+          header = "",
+          prefix = "",
+        },
+        severity_sort = true,
+        update_in_insert = false,
+      })
       -- Setup LSP Servers
       local lspconfig = require("lspconfig")
+      -- local lspconfig = vim.lsp.config
 
       -- TypeScript & JavaScript (tsserver)
       lspconfig.ts_ls.setup({
         capabilities = capabilities,
         on_attach = on_attach,
+        init_options = {
+          preferences = {
+            disableSuggestions = false,
+          },
+        },
         settings = {
           typescript = {
             format = { enable = true },
@@ -79,7 +111,20 @@ return {
       })
 
       -- Other LSPs
-      lspconfig.eslint.setup({ capabilities = capabilities, on_attach = on_attach })
+      lspconfig.eslint.setup({
+        capabilities = capabilities,
+        on_attach = function(client, bufnr)
+          -- Only enable eslint for linting and disable its formatting provider
+          client.server_capabilities.documentFormattingProvider = false
+          client.server_capabilities.documentRangeFormattingProvider = false
+
+          -- Attach LSP keymaps
+          local opts = { noremap = true, silent = true, buffer = bufnr }
+          vim.keymap.set("n", "<Leader>e", vim.diagnostic.open_float, opts)
+          vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+          vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+        end,
+      })
       lspconfig.lua_ls.setup({ capabilities = capabilities, on_attach = on_attach })
       lspconfig.pyright.setup({ capabilities = capabilities, on_attach = on_attach })
     end,
@@ -92,9 +137,13 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "L3MON4D3/LuaSnip",
       "saadparwaiz1/cmp_luasnip",
+      "windp/nvim-autopairs",
     },
     config = function()
       local cmp = require("cmp")
+      local cmp_autopairs = require("nvim-autopairs.completion.cmp")
+
+      cmp.event:on("confirm_done", cmp_autopairs.on_confirm_done())
       cmp.setup({
         mapping = cmp.mapping.preset.insert({
           ["<C-Space>"] = cmp.mapping.complete(),            -- Trigger completion manually

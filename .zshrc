@@ -7,7 +7,7 @@ fi
 
 path+=~/.npm-global/bin/
 path+=~/Library/Python/3.7/bin/
-export PATH 
+path=(/opt/homebrew/opt/curl/bin $path)
 export LANG=en_US.UTF-8
 # export PYTHON=~/Library/Python/3.7/bin/
 

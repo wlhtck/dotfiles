@@ -12,7 +12,6 @@ return {
     config = function()
       require("telescope").setup({
         defaults = {
-          file_ignore_patterns = { "node_modules", ".git" },
           sorting_strategy = "ascending",
           layout_config = { prompt_position = "top" },
           mappings = {
@@ -39,6 +38,7 @@ return {
 
       -- Equivalent to `GFiles` (Git files)
       map("n", "<C-p>", builtin.git_files, { silent = true })
+      -- map("n", "<C-p>", builtin.find_files, { silent = true })
 
       -- Equivalent to `Rg` (Live Grep)
       map("n", "<Leader>p", builtin.live_grep, { silent = true })
