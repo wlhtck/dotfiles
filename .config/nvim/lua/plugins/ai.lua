@@ -40,6 +40,27 @@ return {
         vim.cmd("AiderAddModifiedFiles")
         vim.cmd("AiderOpen " .. args)
       end, { desc = "AI: Commit workflow with Aider" })
+
+      -- Terminal navigation mappings
+      vim.keymap.set("t", "<C-h>", [[<C-\><C-n><C-w>h]], { desc = "Move to left window" })
+      vim.keymap.set("t", "<C-j>", [[<C-\><C-n><C-w>j]], { desc = "Move to window below" })
+      vim.keymap.set("t", "<C-k>", [[<C-\><C-n><C-w>k]], { desc = "Move to window above" })
+      vim.keymap.set("t", "<C-l>", [[<C-\><C-n><C-w>l]], { desc = "Move to right window" })
+      
+      -- Quick return to terminal insert mode
+      vim.keymap.set("n", "<leader>at", function()
+        -- Find and focus the Aider terminal buffer
+        for _, buf in ipairs(vim.api.nvim_list_bufs()) do
+          local name = vim.api.nvim_buf_get_name(buf)
+          if name:match("Aider Chat") then
+            -- Switch to the terminal buffer
+            vim.api.nvim_set_current_buf(buf)
+            -- Enter terminal mode
+            vim.cmd('startinsert')
+            return
+          end
+        end
+      end, { desc = "AI: Return to Aider chat" })
     end,
   },
 }
