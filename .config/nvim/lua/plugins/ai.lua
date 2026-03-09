@@ -6,7 +6,9 @@ return {
     },
 
     config = function()
-      require("aider").setup({})
+      require("aider").setup({
+        auto_commit = false
+      })
 
       local model =
       "bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
