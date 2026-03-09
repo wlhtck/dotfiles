@@ -22,7 +22,7 @@ return {
       -- Open Aider with current file
       vim.keymap.set("n", "<leader>af", function()
         local file = vim.fn.expand("%")
-        vim.cmd([[AiderOpen args=]] .. args .. " " .. file)
+        vim.cmd("AiderOpen " .. args .. " " .. file)
       end, { desc = "AI: Open with current file" })
 
       -- Add modified files
@@ -37,8 +37,8 @@ return {
 
       -- Quick AI commit workflow
       vim.keymap.set("n", "<leader>ac", function()
-        vim.cmd([[AiderAddModifiedFiles]])
-        vim.cmd([[AiderOpen args=]] .. args)
+        vim.cmd("AiderAddModifiedFiles")
+        vim.cmd("AiderOpen " .. args)
       end, { desc = "AI: Commit workflow with Aider" })
     end,
   },
