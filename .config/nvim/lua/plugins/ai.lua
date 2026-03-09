@@ -16,7 +16,7 @@ return {
 
       -- Open Aider
       vim.keymap.set("n", "<leader>ai", function()
-        vim.cmd([[AiderOpen args=]] .. args)
+        vim.cmd([[AiderOpen]] .. args)
       end, { desc = "AI: Open Aider (Bedrock Claude)" })
 
       -- Open Aider with current file
