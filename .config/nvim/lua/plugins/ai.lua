@@ -6,15 +6,15 @@ return {
     },
 
     config = function()
+      local model = "bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
+      
       require("aider").setup({
-        auto_commit = false
+        auto_commit = false,
+        model = model,
+        default_args = "--no-show-model-warnings"
       })
 
-      local model =
-      "bedrock/us.anthropic.claude-3-5-sonnet-20241022-v2:0"
-
-      local args =
-          "--model " .. model .. " --no-show-model-warnings"
+      local args = "--model " .. model .. " --no-show-model-warnings"
 
       -- Open Aider
       vim.keymap.set("n", "<leader>ai", function()
@@ -52,6 +52,7 @@ return {
       -- Quick return to terminal insert mode
       vim.keymap.set("n", "<leader>at", function()
         -- Find and focus the Aider terminal buffer
+        local found = false
         for _, buf in ipairs(vim.api.nvim_list_bufs()) do
           local name = vim.api.nvim_buf_get_name(buf)
           if name:match("Aider Chat") then
@@ -59,8 +60,12 @@ return {
             vim.api.nvim_set_current_buf(buf)
             -- Enter terminal mode
             vim.cmd('startinsert')
-            return
+            found = true
+            break
           end
+        end
+        if not found then
+          vim.notify("No active Aider chat found", vim.log.levels.WARN)
         end
       end, { desc = "AI: Return to Aider chat" })
     end,
