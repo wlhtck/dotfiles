@@ -13,15 +13,15 @@ return {
     config = function()
       -- Mason Setup
       require("mason").setup()
-      -- require("mason-lspconfig").setup({
-      --   ensure_installed = { "ts_ls", "eslint", "lua_ls", "pyright" },
-      --   handlers = {
-      --     function(server)
-      --       print("Installing LSP: " .. server)
-      --     end
+      require("mason-lspconfig").setup({
+        ensure_installed = { "ts_ls", "eslint", "lua_ls", "pyright" },
+        handlers = {
+          function(server)
+            print("Installing LSP: " .. server)
+          end
 
-      --   }
-      -- })
+        }
+      })
 
       -- LSP Capabilities (for nvim-cmp)
       local capabilities = require("cmp_nvim_lsp").default_capabilities()
@@ -194,4 +194,22 @@ return {
 
   -- EditorConfig (for consistent formatting)
   { "editorconfig/editorconfig-vim", enabled = true },
+  {
+    "stevearc/conform.nvim",
+    config = function()
+      require("conform").setup({
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = false,
+        },
+        formatters_by_ft = {
+          javascript = { "prettier" },
+          javascriptreact = { "prettier" },
+          typescript = { "prettier" },
+          typescriptreact = { "prettier" },
+          json = { "prettier" },
+        },
+      })
+    end,
+  },
 }
