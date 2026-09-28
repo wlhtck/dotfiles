@@ -7,7 +7,7 @@ fi
 
 path+=~/.npm-global/bin/
 path+=~/Library/Python/3.7/bin/
-export PATH 
+path=(/opt/homebrew/opt/curl/bin $path)
 export LANG=en_US.UTF-8
 # export PYTHON=~/Library/Python/3.7/bin/
 
@@ -154,3 +154,5 @@ export PATH="/usr/local/opt/openjdk/bin:$PATH"
 # export ANDROID_HOME=$HOME/Library/Android/sdk
 # export PATH=$PATH:$ANDROID_HOME/emulator
 # export PATH=$PATH:$ANDROID_HOME/platform-tools
+
+export PATH="/Users/willhitchcock/.local/bin:$PATH"
